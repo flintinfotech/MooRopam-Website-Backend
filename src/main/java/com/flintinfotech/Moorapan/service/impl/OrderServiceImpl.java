@@ -134,6 +134,9 @@ public class OrderServiceImpl implements OrderService {
         emailService.sendPaymentEmail(
                 userFullName,
                 user.getEmail(),
+                user.getPhoneNumber(),
+                user.getShippingAddress(),
+                user.getBillingAddress(),
                 totalAmount.doubleValue(),
                 payment.getTransactionId(),
                 productNames

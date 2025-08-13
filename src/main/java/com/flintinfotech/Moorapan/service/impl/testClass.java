@@ -1,24 +1,20 @@
 package com.flintinfotech.Moorapan.service.impl;
 
-import com.flintinfotech.Moorapan.service.EmailService;
 import okhttp3.*;
 import org.json.JSONObject;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
-public class EmailServiceImpl implements EmailService {
+public class testClass {
 
     private static final String API_KEY = "re_GTS1aDW8_P3nd5qVFoeDYxv8huhVsJJm6";  // Use your secure API key
     private static final String FROM_EMAIL = "Moorapan <onboarding@resend.dev>";
     private static final String TO_EMAIL = "mooropan@gmail.com";
     private static final String RESEND_API_URL = "https://api.resend.com/emails";
 
-    private final OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient();
 
-    @Override
-    public void sendPaymentEmail(String customerName, String customerEmail, String phoneNumber, String shippingAddress, String billingAddress, double amount, String paymentId, String productName) {
+    public static void sendPaymentEmail(String customerName, String customerEmail, double amount, String paymentId, String productName) {
         JSONObject body = new JSONObject();
         body.put("from", FROM_EMAIL);
         body.put("to", TO_EMAIL);
@@ -27,9 +23,6 @@ public class EmailServiceImpl implements EmailService {
         String htmlContent = "<h2>🧾 Payment Details</h2>" +
                 "<p><strong>Name:</strong> " + customerName + "</p>" +
                 "<p><strong>Email:</strong> " + customerEmail + "</p>" +
-                "<p><strong>Phone:</strong> " + phoneNumber + "</p>" +
-                "<p><strong>Shipping address:</strong> " + shippingAddress + "</p>" +
-                "<p><strong>Billing address:</strong> " + billingAddress + "</p>" +
                 "<p><strong>Product:</strong> " + productName + "</p>" +
                 "<p><strong>Amount:</strong> ₹" + amount + "</p>" +
                 "<p><strong>Payment ID:</strong> " + paymentId + "</p>";
@@ -51,11 +44,25 @@ public class EmailServiceImpl implements EmailService {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 System.out.println("✅ Email sent successfully.");
+                System.out.println("🔄 HTTP Response Code: " + response.code());
+                System.out.println("🔍 Response: " + response.body().string());
             } else {
-                System.err.println("❌ Failed to send email: " + response.body().string());
+                System.err.println("❌ Failed to send email. HTTP Code: " + response.code());
+                System.err.println("🔍 Error Response: " + response.body().string());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // 🔹 Main method for testing
+    public static void main(String[] args) {
+        String customerName = "Gitesh Darbastwar";
+        String customerEmail = "giteshdarbastwar2812@gmail.com";
+        double amount = 1200.00;
+        String paymentId = "PAY12345678";
+        String productName = "Moorapan Premium Service";
+
+        sendPaymentEmail(customerName, customerEmail, amount, paymentId, productName);
     }
 }

@@ -53,11 +53,10 @@ public class PaymentController {
             Response response = new Response(paymentRequest, "Success", "Order placed and payment successful");
             return ResponseEntity.status(HttpStatus.OK).body(response);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Response errorResponse = new Response(e.getMessage(), "ERROR", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
-
 
 
     }
