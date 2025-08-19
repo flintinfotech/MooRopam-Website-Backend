@@ -3,6 +3,7 @@ package com.flintinfotech.Moorapan.service.impl;
 import com.flintinfotech.Moorapan.service.EmailService;
 import okhttp3.*;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,7 +11,9 @@ import java.io.IOException;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final String API_KEY = "re_GTS1aDW8_P3nd5qVFoeDYxv8huhVsJJm6";  // Use your secure API key
+    @Value("${Moorapan.resendAPIKey}")
+    private String API_KEY;
+
     private static final String FROM_EMAIL = "Moorapan <onboarding@resend.dev>";
     private static final String TO_EMAIL = "mooropan@gmail.com";
     private static final String RESEND_API_URL = "https://api.resend.com/emails";
